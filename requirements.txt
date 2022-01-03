@@ -1,0 +1,9 @@
+# Youtube requirements
+yt-dlp
+youtube-search-python
+
+# TgCalls
+
+Py-tgcalls==0.8.1
+
+# Database

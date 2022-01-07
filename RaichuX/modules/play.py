@@ -9,10 +9,10 @@ import ffmpeg
 import requests
 from RaichuX.converter import converter
 from RaichuX.helper.function.admins import admins as a
-from RaichuX.helper.import callsmusic
-from callsmusic.callsmusic import client as USER
-from callsmusic.queues import queues
-from config import (
+from RaichuX.helper.Calls.tgcalls import callsmusic
+from RaichuX.helper.Calls.tgcalls import assistant as USER
+from RaichuX.helper.Queues.queues import queues
+from RaichuX import (
     ASSISTANT_NAME,
     BOT_NAME,
     BOT_USERNAME,

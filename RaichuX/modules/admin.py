@@ -2,7 +2,7 @@
 from asyncio import QueueEmpty
 
 from Image import tgcalls
-from RaichuX.helpers.Queues.queues import queues
+from Image.queues import queues
 from RaichuX import BOT_USERNAME, que
 from RaichuX.helpers.Functions.admins import admins
 from RaichuX.helpers.debug.channelmusic import get_chat_id
@@ -21,9 +21,6 @@ from pyrogram.types import (
 
 ACTV_CALLS = []
 
-@Client.on_message()
-async def _(bot: Client, cmd: Message):
-    await handle_user_status(bot, cmd)
 
 
 # Back Button

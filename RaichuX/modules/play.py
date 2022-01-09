@@ -23,13 +23,13 @@ from RaichuX import (
     UPDATES_CHANNEL,
     que,
 )
-from Raichu.youtube import youtube
-from helpers.debug.admins import get_administrators
-from helpers.debug.channelmusic import get_chat_id
-from helpers.debug.chattitle import CHAT_TITLE
-from helpers.debug.decorators import authorized_users_only
-from helpers.debug.filters import command, other_filters
-from helpers.debug.gets import get_url, get_file_name
+from RaichuX.modules.youtube import youtube
+from RaichuX.helpers.debug.admins import get_administrators
+from RaichuX.helpers.debug.channelmusic import get_chat_id
+from RaichuX.helpers.debug.chattitle import CHAT_TITLE
+from RaichuX.helpers.debug.decorators import authorized_users_only
+from RaichuX.helpers.debug.filters import command, other_filters
+from RaichuX.helpers.debug.gets import get_url, get_file_name
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant

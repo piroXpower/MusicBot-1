@@ -3,7 +3,7 @@ git+https://github.com/pyrogram/pyrogram@master
 tgcrypto
 youtube-search
 yt-dlp
-py-tgcalls
+py-tgcalls==0.8.1
 python-dotenv
 requests
 aiohttp

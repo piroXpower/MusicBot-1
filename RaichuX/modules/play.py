@@ -95,7 +95,7 @@ async def generate_cover(title, thumbnail, ctitle):
               await f.write(await resp.read())
               await f.close()
     image1 = Image.open("./background.png")
-    image2 = Image.open("Image/foreground.png")
+    image2 = Image.open("etc/foreground.png")
     image3 = changeImageSize(1280, 720, image1)
     image4 = changeImageSize(1280, 720, image2)
     image5 = image3.convert("RGBA")
@@ -103,8 +103,8 @@ async def generate_cover(title, thumbnail, ctitle):
     Image.alpha_composite(image5, image6).save("temp.png")
     img = Image.open("temp.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("Image/regular.ttf", 52)
-    font2 = ImageFont.truetype("Image/medium.ttf", 76)
+    font = ImageFont.truetype("etc/regular.ttf", 52)
+    font2 = ImageFont.truetype("etc/medium.ttf", 76)
     draw.text((27, 538), f"Playing on {ctitle[:8]}..", (0, 0, 0), font=font)
     draw.text((27, 612), f"{title[:18]}...", (0, 0, 0), font=font2)
     img.save("final.png")
@@ -233,7 +233,7 @@ async def ytplay(_, message: Message):
     )
     await generate_cover(title, thumbnail, ctitle)
     file_path = await converter.convert(youtube.download(url))
-    for x in tgcalls.pytgcalls.active_calls:
+    for x in callsmusic.pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) in ACTV_CALLS:
         position = await queues.put(chat_id, file=file_path)
@@ -259,7 +259,7 @@ async def ytplay(_, message: Message):
         appendable = [s_name, r_by, loc]
         qeue.append(appendable)
         try:
-            await tgcalls.pytgcalls.join_group_call(
+            await callsmusic.pytgcalls.join_group_call(
                 chat_id, 
                 InputStream(
                     InputAudioStream(
@@ -325,7 +325,7 @@ async def playlist(client, message):
 # ============================= Settings =========================================
 
 def updated_stats(chat, queue, vol=100):
-    if chat.id in tgcalls.pytgcalls.active_calls:
+    if chat.id in callsmusic.pytgcalls.active_calls:
         stats = "⚙ settings for **{}**".format(chat.title)
         if len(que) > 0:
             stats += "\n\n"
@@ -367,7 +367,7 @@ def r_ply(type_):
 async def settings(client, message):
     global que
     playing = None
-    if message.chat.id in tgcalls.pytgcalls.active_calls:
+    if message.chat.id in callsmusic.pytgcalls.active_calls:
         playing = True
     queue = que.get(message.chat.id)
     stats = updated_stats(message.chat, queue)
@@ -503,14 +503,14 @@ async def m_cb(b, cb):
 
     cb.message.reply_markup.inline_keyboard[1][0].callback_data
     if type_ == "pause":
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "userbot is not connected to voice chat.", show_alert=True
             )
         else:
-            await tgcalls.pytgcalls.pause_stream(chat_id)
+            await callsmusic.pytgcalls.pause_stream(chat_id)
             
             await cb.answer("music paused")
             await cb.message.edit(
@@ -518,14 +518,14 @@ async def m_cb(b, cb):
             )
 
     elif type_ == "play":
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "userbot is not connected to voice chat.", show_alert=True
             )
         else:
-            await tgcalls.pytgcalls.resume_stream(chat_id)
+            await callsmusic.pytgcalls.resume_stream(chat_id)
             
             await cb.answer("music resumed")
             await cb.message.edit(
@@ -557,26 +557,26 @@ async def m_cb(b, cb):
 
     elif type_ == "resume":
         psn = "▶ music playback has resumed"
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "voice chat is not connected or already playing", show_alert=True
             )
         else:
-            await tgcalls.pytgcalls.resume_stream(chat_id)
+            await callsmusic.pytgcalls.resume_stream(chat_id)
             await cb.message.edit(psn, reply_markup=keyboard)
 
     elif type_ == "puse":
         spn = "⏸ music playback has paused"
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "voice chat is not connected or already paused", show_alert=True
             )
         else:
-            await tgcalls.pytgcalls.pause_stream(chat_id)
+            await callsmusic.pytgcalls.pause_stream(chat_id)
             await cb.message.edit(spn, reply_markup=keyboard)
 
     elif type_ == "cls":
@@ -605,17 +605,17 @@ async def m_cb(b, cb):
         mmk = "⏭ you skipped to the next music"
         if qeue:
             qeue.pop(0)
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "assistant is not connected to voice chat !", show_alert=True
             )
         else:
-            tgcalls.queues.task_done(chat_id)
+            callsmusic.queues.task_done(chat_id)
             
-            if tgcalls.queues.is_empty(chat_id):
-                await tgcalls.pytgcalls.leave_group_call(chat_id)
+            if callsmusic.queues.is_empty(chat_id):
+                await callsmusic.pytgcalls.leave_group_call(chat_id)
                 
                 await cb.message.edit(
                     nmq,
@@ -624,11 +624,11 @@ async def m_cb(b, cb):
                     ),
                 )
             else:
-                await tgcalls.pytgcalls.change_stream(
+                await callsmusic.pytgcalls.change_stream(
                     chat_id, 
                     InputStream(
                         InputAudioStream(
-                            RaichuX.helpers.Queues.queues.get(chat_id)["file"],
+                            callsmusic.queues.get(chat_id)["file"],
                         ),
                     ),
                 )
@@ -636,14 +636,14 @@ async def m_cb(b, cb):
 
     elif type_ == "leave":
         hps = "✅ **the music playback has ended**"
-        for x in tgcalls.pytgcalls.active_calls:
+        for x in callsmusic.pytgcalls.active_calls:
             ACTV_CALLS.append(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             try:
                 callsmusic.queues.clear(chat_id)
             except QueueEmpty:
                 pass
-            await tgcalls.pytgcalls.leave_group_call(chat_id)
+            await callsmusic.pytgcalls.leave_group_call(chat_id)
             await cb.message.edit(
                 hps,
                 reply_markup=InlineKeyboardMarkup(

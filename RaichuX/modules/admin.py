@@ -1,7 +1,7 @@
 
 from asyncio import QueueEmpty
 
-from Image import tgcalls
+from Image import tgcalls as Image
 from Image.queues import queues
 from RaichuX import BOT_USERNAME, que
 from RaichuX.helpers.Functions.admins import admins

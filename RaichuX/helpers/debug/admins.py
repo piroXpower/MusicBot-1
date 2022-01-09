@@ -2,8 +2,8 @@ from typing import List
 
 from pyrogram.types import Chat
 
-from RaichuX.helpers.functions.admins import get as gett
-from RaichuX.helpers.functions.admins import set
+from RaichuX.helpers.Functions.admins import get as gett
+from RaichuX.helpers.Functions.admins import set
 
 
 async def get_administrators(chat: Chat) -> List[int]:

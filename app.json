@@ -41,19 +41,19 @@
         "BOT_USERNAME": {
             "description": "fill with your bot username without @",
             "required": true,
-            "value": "veezmusicbot"
+            "value": "XRaichuMusicBot"
         },
         "ASSISTANT_NAME": {
             "description": "fill with the assistant username without @",
             "required": true,
-            "value": "veezasisstant"
+            "value": "XRaichuAssistant"
         },
         "OWNER_NAME": {
             "description": "fill with your telegram username without @",
             "required": false,
-            "value": "dlwrml"
+            "value": "XRaichu"
         },
-       "API_ID": {
+        "API_ID": {
             "description": "your Api ID from my.telegram.org/apps",
             "required": true
         },

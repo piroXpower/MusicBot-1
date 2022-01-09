@@ -11,6 +11,7 @@ BOT_USERNAME = getenv("BOT_USERNAME")
 admins = {}
 API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
+SESSION_NAME = getenv("SESSION_NAME", "session")
 
 OWNER_ID = int(getenv("OWNER_ID"))
 COMMAND_PREFIXES = list(getenv("COMMAND_PREFIXES", "/ !").split())

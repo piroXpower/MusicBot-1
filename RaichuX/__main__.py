@@ -1,6 +1,6 @@
 import requests
 from pyrogram import Client as Bot
-from XRaichu.helpers.Calls.tgcalls import run
+from RaichuX.helpers.Calls.tgcalls import run
 from pytgcalls import idle
 from RaichuX import API_ID, API_HASH, BOT_TOKEN
 

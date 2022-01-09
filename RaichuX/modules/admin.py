@@ -58,12 +58,12 @@ async def update_admin(client, message):
 @authorized_users_only
 async def pause(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in callsmusic.pytgcalls.active_calls:
+    for x in Image.pyImage.active_calls:
         ACTV_CALLS(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
     else:
-        await callsmusic.pytgcalls.pause_stream(chat_id)
+        await Image.pyImage.pause_stream(chat_id)
         await message.reply_text(
             "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» /resume command."
         )
@@ -74,12 +74,12 @@ async def pause(_, message: Message):
 @authorized_users_only
 async def resume(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in callsmusic.pytgcalls.active_calls:
+    for x in Image.pyImage.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is paused**")
     else:
-        await callsmusic.pytgcalls.resume_stream(chat_id)
+        await Image.pyImage.resume_stream(chat_id)
         await message.reply_text(
             "▶️ **Track resumed.**\n\n• **To pause the playback, use the**\n» /pause command."
         )
@@ -90,7 +90,7 @@ async def resume(_, message: Message):
 @authorized_users_only
 async def stop(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in callsmusic.pytgcalls.active_calls:
+    for x in Image.pyImage.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
@@ -99,7 +99,7 @@ async def stop(_, message: Message):
             queues.clear(chat_id)
         except QueueEmpty:
             pass
-        await callsmusic.pytgcalls.leave_group_call(chat_id)
+        await Image.pyImage.leave_group_call(chat_id)
         await message.reply_text("✅ **music playback has ended**")
 
 
@@ -109,7 +109,7 @@ async def stop(_, message: Message):
 async def skip(_, message: Message):
     global que
     chat_id = message.chat.id
-    for x in callsmusic.pytgcalls.active_calls:
+    for x in Image.pyImage.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
@@ -117,13 +117,13 @@ async def skip(_, message: Message):
         queues.task_done(chat_id)
         
         if queues.is_empty(chat_id):
-            await callsmusic.pytgcalls.leave_group_call(chat_id)
+            await Image.pyImage.leave_group_call(chat_id)
         else:
-            await callsmusic.pytgcalls.change_stream(
+            await Image.pyImage.change_stream(
                 chat_id, 
                 InputStream(
                     InputAudioStream(
-                        callsmusic.queues.get(chat_id)["file"],
+                        Image.queues.get(chat_id)["file"],
                     ),
                 ),
             )
@@ -134,76 +134,3 @@ async def skip(_, message: Message):
     if not qeue:
         return
     await message.reply_text("⏭ **You've skipped to the next song.**")
-
-
-@Client.on_message(command(["auth", f"auth@{BOT_USERNAME}"]) & other_filters)
-@authorized_users_only
-async def authenticate(client, message):
-    global admins
-    if not message.reply_to_message:
-        return await message.reply("💡 reply to message to authorize user !")
-    if message.reply_to_message.from_user.id not in admins[message.chat.id]:
-        new_admins = admins[message.chat.id]
-        new_admins.append(message.reply_to_message.from_user.id)
-        admins[message.chat.id] = new_admins
-        await message.reply(
-            "🟢 user authorized.\n\nfrom now on, that's user can use the admin commands."
-        )
-    else:
-        await message.reply("✅ user already authorized!")
-
-
-@Client.on_message(command(["unauth", f"deauth@{BOT_USERNAME}"]) & other_filters)
-@authorized_users_only
-async def deautenticate(client, message):
-    global admins
-    if not message.reply_to_message:
-        return await message.reply("💡 reply to message to deauthorize user !")
-    if message.reply_to_message.from_user.id in admins[message.chat.id]:
-        new_admins = admins[message.chat.id]
-        new_admins.remove(message.reply_to_message.from_user.id)
-        admins[message.chat.id] = new_admins
-        await message.reply(
-            "🔴 user deauthorized.\n\nfrom now that's user can't use the admin commands."
-        )
-    else:
-        await message.reply("✅ user already deauthorized!")
-
-
-# this is a anti cmd feature
-@Client.on_message(command(["delcmd", f"delcmd@{BOT_USERNAME}"]) & other_filters)
-@authorized_users_only
-async def delcmdc(_, message: Message):
-    if len(message.command) != 2:
-        return await message.reply_text(
-            "read the /help message to know how to use this command"
-        )
-    status = message.text.split(None, 1)[1].strip()
-    status = status.lower()
-    chat_id = message.chat.id
-    if status == "on":
-        if await delcmd_is_on(message.chat.id):
-            return await message.reply_text("✅ already activated")
-        await delcmd_on(chat_id)
-        await message.reply_text("🟢 activated successfully")
-    elif status == "off":
-        await delcmd_off(chat_id)
-        await message.reply_text("🔴 disabled successfully")
-    else:
-        await message.reply_text(
-            "read the /help message to know how to use this command"
-        )
-
-
-# For Volume Control
-
-@Client.on_message(command(["volume", f"volume@{BOT_USERNAME}"]) & other_filters)
-@authorized_users_only
-async def change_volume(client, message):
-    range = message.command[1]
-    chat_id = message.chat.id
-    try:
-       await callsmusic.pytgcalls.change_volume_call(chat_id, volume=int(range))
-       await message.reply(f"✅ **volume set to:** ```{range}%```")
-    except Exception as e:
-       await message.reply(f"**error:** {e}")

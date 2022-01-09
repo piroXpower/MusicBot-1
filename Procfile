@@ -1,1 +1,1 @@
-worker: python3.9 -m RaichuX
+worker: python3 -m RaichuX

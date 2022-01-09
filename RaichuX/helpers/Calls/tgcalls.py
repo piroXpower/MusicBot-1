@@ -19,7 +19,7 @@ async def on_stream_end(client: PyTgCalls, update: Update) -> None:
     if queues.is_empty(chat_id):
         await pytgcalls.leave_group_call(chat_id)
         await Assistant.send_message(chat_id,"<b>•Music PlayBack Ended\n•Assistant Leaving This Group\n•Thanks For Using This Bot\n•Powered By:- @XRaichu_Official</b>") 
-        await userbot.leave_chat(chat_id)
+        await Assistant.leave_chat(chat_id)
     else:
         await pytgcalls.change_stream(
             chat_id, 

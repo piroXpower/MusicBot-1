@@ -12,7 +12,7 @@ from RaichuX.helpers.Functions.admins import admins as a
 from Image.converter import converter
 from RaichuX.helpers.Calls import tgcalls
 from RaichuX.helpers.Calls.tgcalls import Assistant as USER
-from RaichuX.Queues.queues import queues
+from RaichuX.helpers.Queues.queues import queues
 from RaichuX import (
     ASSISTANT_NAME,
     BOT_NAME,

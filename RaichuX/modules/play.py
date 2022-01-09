@@ -291,7 +291,7 @@ async def playlist(client, message):
         [
             [
                 InlineKeyboardButton("•Gʀᴏᴜᴘ", url=f"https://t.me/XRaichu_Official"),               
-                InlineKeyboardButton("•Assɪsᴛᴀɴᴛ", url=f"https://t.me/{ASSISTANT_USERNAME}"),
+                InlineKeyboardButton("•Assɪsᴛᴀɴᴛ", url=f"https://t.me/{ASSISTANT_NAME}"),
             ]
         ]
     )

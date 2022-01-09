@@ -8,7 +8,7 @@ import aiohttp
 
 import ffmpeg
 import requests
-from RaichuX.Function.admins import admins as a
+from RaichuX.helpers.Functions.admins import admins as a
 from Image.converter import converter
 from RaichuX.Calls import tgcalls
 from RaichuX.Calls.tgcalls import client as USER

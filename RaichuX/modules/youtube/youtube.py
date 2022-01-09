@@ -3,7 +3,7 @@ from os import path
 from yt_dlp import YoutubeDL
 
 from RaichuX import DURATION_LIMIT
-from helpers.errors import DurationLimitError
+from RaichuX.helpers.debug.errors import DurationLimitError
 
 ydl_opts = {
     "format": "bestaudio/best",

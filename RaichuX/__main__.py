@@ -4,6 +4,7 @@ from RaichuX.helpers.Calls.tgcalls import run
 from pytgcalls import idle
 from RaichuX import API_ID, API_HASH, BOT_TOKEN
 
+response = requests.get(BG_IMAGE)
 with open("./Image/foreground.png", "wb") as file:
     file.write(response.content)
 

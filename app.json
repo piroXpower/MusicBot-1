@@ -12,7 +12,6 @@
     ],
     "repository": "https://github.com/TeamRaichu/MusicBot",
     "website": "https://t.me/XRaichu_Official",
-    "success_url": "https://t.me/XRaichuNews",
     "stack": "container",
     "env": {
         "SESSION_NAME": {

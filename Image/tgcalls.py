@@ -1,4 +1,4 @@
-from . import queues
+from Image.queues import queues
 from pyrogram import Client
 from pytgcalls import PyTgCalls
 from pytgcalls.types import Update

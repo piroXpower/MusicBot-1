@@ -20,9 +20,6 @@ from pyrogram.types import (
 
 ACTV_CALLS = []
 
-@Client.on_message()
-async def _(bot: Client, cmd: Message):
-    await handle_user_status(bot, cmd)
 
 
 # Back Button

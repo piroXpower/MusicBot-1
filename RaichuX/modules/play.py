@@ -10,8 +10,8 @@ import ffmpeg
 import requests
 from RaichuX.helpers.Functions.admins import admins as a
 from Image.converter import converter
-from RaichuX.Calls import tgcalls
-from RaichuX.Calls.tgcalls import client as USER
+from RaichuX.helpers.Calls import tgcalls
+from RaichuX.helpers.Calls.tgcalls import Assistant as USER
 from RaichuX.Queues.queues import queues
 from RaichuX import (
     ASSISTANT_NAME,

@@ -1,1 +1,34 @@
-
+{
+    "name": "RaichuX VCPlayer",
+    "description": "Simple And Easy Bot To Play Music In Telegram Voice Chat",
+    "keywords": [
+        "MusicBot",
+        "TelegramVC",
+        "Pytgcalls",
+        "XRaichu",
+        "Blaze",
+        "MusicPlayer",
+        "Simple"
+    ],
+    "repository": "https://github.com/TeamRaichu/MusicBot",
+    "website": "https://t.me/XRaichu_Official",
+    "success_url": "https://t.me/XRaichuNews",
+    "stack": "heroku-20",
+    "buildpacks": [
+        {
+            "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git "
+        },
+        {
+            "url": " heroku/nodejs "
+        },
+        {
+            "url": " heroku/python"
+        }
+    ],
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}

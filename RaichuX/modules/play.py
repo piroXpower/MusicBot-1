@@ -24,7 +24,7 @@ from config import (
     que,
 )
 from Raichu.youtube import youtube
-from helpers.admins import get_administrators
+from helpers.debug.admins import get_administrators
 from helpers.channelmusic import get_chat_id
 from helpers.chattitle import CHAT_TITLE
 from helpers.decorators import authorized_users_only

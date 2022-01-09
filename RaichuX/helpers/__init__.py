@@ -1,1 +1,1 @@
-__PYTHON VERSION__ = "3.9.0"
+__PYTHON__ = "3.9.0"

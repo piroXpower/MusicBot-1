@@ -13,7 +13,75 @@
     "repository": "https://github.com/TeamRaichu/MusicBot",
     "website": "https://t.me/XRaichu_Official",
     "success_url": "https://t.me/XRaichuNews",
-    "stack": "heroku-20",
+    "stack": "container",
+    "env": {
+        "SESSION_NAME": {
+            "description": "fill with the pyrogram session string",
+            "required": true
+        },
+        "BOT_TOKEN": {
+            "description": "fill with your bot token from @BotFather",
+            "required": true
+        },
+        "BOT_NAME": {
+            "description": "fill with your music bot name.",
+            "required": true,
+            "value": ""
+        },
+        "OWNER_ID": {
+            "description": "fill with your telegram id as the owner of the bot",
+            "required": true,
+            "value": ""
+        },
+        "DATABASE_URL": {
+            "description": "fill with the mongodb url you get from cloud.mongodb.com",
+            "required": true,
+            "value": ""
+        },
+        "BOT_USERNAME": {
+            "description": "fill with your bot username without @",
+            "required": true,
+            "value": "veezmusicbot"
+        },
+        "ASSISTANT_NAME": {
+            "description": "fill with the assistant username without @",
+            "required": true,
+            "value": "veezasisstant"
+        },
+        "OWNER_NAME": {
+            "description": "fill with your telegram username without @",
+            "required": false,
+            "value": "dlwrml"
+        },
+       "API_ID": {
+            "description": "your Api ID from my.telegram.org/apps",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "your Api Hash from my.telegram.org/apps",
+            "required": true
+        },
+        "SUDO_USERS": {
+            "description": "fill with the user id who can access all function in your bot (separate with space).",
+            "required": true
+        },
+        "DURATION_LIMIT": {
+            "description": "max duration for music to download (in minutes, default is 40).",
+            "required": true,
+            "value": "90"
+        },
+        "UPDATES_CHANNEL": {
+            "description": "if you have channel, fill the channel username here without @",
+            "required": false,
+            "value": "XRaichuNews"
+        },
+        "GROUP_SUPPORT": {
+            "description": "if you have group, fill the group username here without @",
+            "required": false,
+            "value": "XRaichu_Official"
+        }
+    },
+    "addons": [],
     "buildpacks": [
         {
             "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git "

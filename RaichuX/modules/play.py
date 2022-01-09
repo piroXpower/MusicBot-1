@@ -10,7 +10,7 @@ import ffmpeg
 import requests
 from RaichuX.helpers.Functions.admins import admins as a
 from Image.converter import converter
-from Image import tgcalls
+from Image import tgcalls as callsmusic
 from Image.tgcalls import Assistant as USER
 from Image.queues import queues
 from RaichuX import (

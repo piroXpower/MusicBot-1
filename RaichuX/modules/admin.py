@@ -116,13 +116,13 @@ async def skip(_, message: Message):
             await tgcalls.pytgcalls.leave_group_call(chat_id)
         else:
             await tgcalls.pytgcalls.change_stream(
-                chat_id, 
-                InputStream(
-                    InputAudioStream(
-                        RaichuX.helpers.Queues.queues.get(chat_id)["file"],
-                    ),
+            chat_id, 
+            InputStream(
+                InputAudioStream(
+                    queues.get(chat_id)["file"],
                 ),
-            )
+            ),
+        )
                 
     qeue = que.get(chat_id)
     if qeue:

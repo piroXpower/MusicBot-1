@@ -25,7 +25,7 @@ UPDATES_CHANNEL = getenv("UPDATES_CHANNEL", "XRaichuNews")
 
 
 # EXTRA 
-DATABASE_URL = os.environ.get("DATABASE_URL")  # fill with your mongodb url
+DATABASE_URL = getenv("DATABASE_URL")  # fill with your mongodb url
 BG_IMAGE = getenv("BG_IMAGE", "https://telegra.ph/file/8628c642a266a22effd8c.png")
 THUMB_IMG = getenv("THUMB_IMG", "https://telegra.ph/file/4c39fbb88932761913fff.png")
 AUD_IMG = getenv("AUD_IMG", "https://telegra.ph/file/73e10ed6e2bd32b478de6.png")

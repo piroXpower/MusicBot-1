@@ -8,7 +8,7 @@ import aiohttp
 import converter
 import ffmpeg
 import requests
-from RaichuX.function.admins import admins as a
+from RaichuX.Function.admins import admins as a
 from RaichuX.Calls import callsmusic
 from RaichuX.Calls.tgcalls import client as USER
 from RaichuX.Queues.queues import queues

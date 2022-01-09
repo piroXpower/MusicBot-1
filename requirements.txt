@@ -1,9 +1,20 @@
-# Youtube requirements
+
+git+https://github.com/pyrogram/pyrogram@master
+tgcrypto
+youtube-search
 yt-dlp
-youtube-search-python
-
-# TgCalls
-
-Py-tgcalls==0.8.1
-
-# Database
+py-tgcalls
+python-dotenv
+requests
+aiohttp
+aiofiles
+asyncio
+ffmpeg-python
+pillow
+future
+psutil
+wget
+motor
+dnspython
+heroku3
+gitpython

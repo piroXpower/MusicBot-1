@@ -17,6 +17,10 @@ COMMAND_PREFIXES = list(getenv("COMMAND_PREFIXES", "/ !").split())
 
 SUDO_USERS = list(map(int, getenv("SUDO_USERS").split()))
 
+ASSISTANT_NAME = getenv("ASSISTANT_NAME")
+GROUP_SUPPORT = getenv("GROUP_SUPPORT", "XRaichu_Official")
+UPDATES_CHANNEL = getenv("UPDATES_CHANNEL", "XRaichuNews")
+
 
 
 # EXTRA 

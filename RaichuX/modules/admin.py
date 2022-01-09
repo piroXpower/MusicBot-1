@@ -6,7 +6,6 @@ from RaichuX.helpers.Queues.queues import queues
 from RaichuX import BOT_USERNAME, que
 from RaichuX.helpers.Functions.admins import admins
 from RaichuX.helpers.debug.channelmusic import get_chat_id
-from RaichuX.helpers.debug.dbtools import delcmd_is_on, delcmd_off, delcmd_on, handle_user_status
 from RaichuX.helpers.debug.decorators import authorized_users_only, errors
 from RaichuX.helpers.debug.filters import command, other_filters
 from pytgcalls.types.input_stream import InputAudioStream
@@ -170,29 +169,6 @@ async def deautenticate(client, message):
         await message.reply("✅ user already deauthorized!")
 
 
-# this is a anti cmd feature
-@Client.on_message(command(["delcmd", f"delcmd@{BOT_USERNAME}"]) & other_filters)
-@authorized_users_only
-async def delcmdc(_, message: Message):
-    if len(message.command) != 2:
-        return await message.reply_text(
-            "read the /help message to know how to use this command"
-        )
-    status = message.text.split(None, 1)[1].strip()
-    status = status.lower()
-    chat_id = message.chat.id
-    if status == "on":
-        if await delcmd_is_on(message.chat.id):
-            return await message.reply_text("✅ already activated")
-        await delcmd_on(chat_id)
-        await message.reply_text("🟢 activated successfully")
-    elif status == "off":
-        await delcmd_off(chat_id)
-        await message.reply_text("🔴 disabled successfully")
-    else:
-        await message.reply_text(
-            "read the /help message to know how to use this command"
-        )
 
 
 # For Volume Control

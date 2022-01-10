@@ -1,7 +1,7 @@
 
 from asyncio import QueueEmpty
 
-from Image import tgcalls as Image
+from Image import tgcalls
 from Image.queues import queues
 from RaichuX import BOT_USERNAME, que
 from RaichuX.helpers.Functions.admins import admins
@@ -54,12 +54,12 @@ async def update_admin(client, message):
 @authorized_users_only
 async def pause(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in Image.pytgcalls.active_calls:
+    for x in tgcalls.pytgcalls.active_calls:
         ACTV_CALLS(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
     else:
-        await Image.pytgcalls.pause_stream(chat_id)
+        await tgcalls.pytgcalls.pause_stream(chat_id)
         await message.reply_text(
             "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» /resume command."
         )
@@ -70,12 +70,12 @@ async def pause(_, message: Message):
 @authorized_users_only
 async def resume(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in Image.pytgcalls.active_calls:
+    for x in tgcalls.pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is paused**")
     else:
-        await Image.pytgcalls.resume_stream(chat_id)
+        await tgcalls.pytgcalls.resume_stream(chat_id)
         await message.reply_text(
             "▶️ **Track resumed.**\n\n• **To pause the playback, use the**\n» /pause command."
         )
@@ -86,7 +86,7 @@ async def resume(_, message: Message):
 @authorized_users_only
 async def stop(_, message: Message):
     chat_id = get_chat_id(message.chat)
-    for x in Image.pytgcalls.active_calls:
+    for x in tgcalls.pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
@@ -95,7 +95,7 @@ async def stop(_, message: Message):
             queues.clear(chat_id)
         except QueueEmpty:
             pass
-        await Image.pytgcalls.leave_group_call(chat_id)
+        await tgcalls.pytgcalls.leave_group_call(chat_id)
         await message.reply_text("✅ **music playback has ended**")
 
 
@@ -105,7 +105,7 @@ async def stop(_, message: Message):
 async def skip(_, message: Message):
     global que
     chat_id = message.chat.id
-    for x in Image.pytgcalls.active_calls:
+    for x in tgcalls.pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
         await message.reply_text("❌ **no music is currently playing**")
@@ -113,13 +113,13 @@ async def skip(_, message: Message):
         queues.task_done(chat_id)
         
         if queues.is_empty(chat_id):
-            await Image.pytgcalls.leave_group_call(chat_id)
+            await tgcalls.pytgcalls.leave_group_call(chat_id)
         else:
-            await Image.pytgcalls.change_stream(
+            await tgcalls.pytgcalls.change_stream(
                 chat_id, 
                 InputStream(
                     InputAudioStream(
-                        Image.queues.get(chat_id)["file"],
+                        tgcalls.queues.get(chat_id)["file"],
                     ),
                 ),
             )

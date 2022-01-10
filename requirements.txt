@@ -1,7 +1,7 @@
 
 git+https://github.com/pyrogram/pyrogram@master
 tgcrypto
-youtube-search
+youtube-search-python
 yt-dlp
 py-tgcalls
 python-dotenv
@@ -18,3 +18,5 @@ motor
 dnspython
 heroku3
 gitpython
+youtube-search
+lyricsgenius

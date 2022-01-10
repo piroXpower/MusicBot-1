@@ -515,8 +515,9 @@ async def m_cb(b, cb):
 
     elif type_ == "resume":
         psn = "▶ music playback has resumed"
+        ACTV_CALLS = []
         for x in callsmusic.pytgcalls.active_calls:
-            ACTV_CALLS.append(int(x.chat_id))
+            ACTV_CALLS(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "voice chat is not connected or already playing", show_alert=True
@@ -527,8 +528,9 @@ async def m_cb(b, cb):
 
     elif type_ == "puse":
         spn = "⏸ music playback has paused"
+        ACTV_CALLS = []
         for x in callsmusic.pytgcalls.active_calls:
-            ACTV_CALLS.append(int(x.chat_id))
+            ACTV_CALLS(int(x.chat_id))
         if int(chat_id) not in ACTV_CALLS:
             await cb.answer(
                 "voice chat is not connected or already paused", show_alert=True

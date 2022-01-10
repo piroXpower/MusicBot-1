@@ -28,5 +28,7 @@ async def on_stream_end(client: PyTgCalls, update: Update) -> None:
             ),
         )
 
+# resume and pause
+
 
 run = pytgcalls.start

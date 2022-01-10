@@ -112,6 +112,111 @@ async def generate_cover(title, thumbnail, ctitle):
     os.remove("background.png")
 
 
+@Client.on_message(
+    command(["player", f"player@{BOT_USERNAME}"]) & filters.group & ~filters.edited
+)
+@authorized_users_only
+async def settings(client, message):
+    global que
+    playing = None
+    if message.chat.id in callsmusic.pytgcalls.active_calls:
+        playing = True
+    queue = que.get(message.chat.id)
+    stats = updated_stats(message.chat, queue)
+    if stats:
+        if playing:
+            await message.reply(stats, reply_markup=r_ply("pause"))
+
+        else:
+            await message.reply(stats, reply_markup=r_ply("play"))
+    else:
+        await message.reply(
+            "😕 **voice chat not found**\n\n» please turn on the voice chat first"
+        )
+
+
+@Client.on_message(
+    command(["music", f"music@{BOT_USERNAME}"])
+    & ~filters.edited
+    & ~filters.bot
+    & ~filters.private
+)
+@authorized_users_only
+async def music_onoff(_, message):
+    global DISABLED_GROUPS
+    try:
+        message.from_user.id
+    except:
+        return
+    if len(message.command) != 2:
+        await message.reply_text(
+            "**• usage:**\n\n `/music on` & `/music off`"
+        )
+        return
+    status = message.text.split(None, 1)[1]
+    message.chat.id
+    if status in ("ON", "on", "On"):
+        lel = await message.reply("`processing...`")
+        if not message.chat.id in DISABLED_GROUPS:
+            await lel.edit("» **music player already turned on.**")
+            return
+        DISABLED_GROUPS.remove(message.chat.id)
+        await lel.edit(f"✅ **music player turned on**\n\n💬 `{message.chat.id}`")
+
+    elif status in ("OFF", "off", "Off"):
+        lel = await message.reply("`processing...`")
+
+        if message.chat.id in DISABLED_GROUPS:
+            await lel.edit("» **music player already turned off.**")
+            return
+        DISABLED_GROUPS.append(message.chat.id)
+        await lel.edit(f"✅ **music player turned off**\n\n💬 `{message.chat.id}`")
+    else:
+        await message.reply_text(
+            "**• usage:**\n\n `/music on` & `/music off`"
+        )
+
+
+
+@Client.on_message(
+    command(["playlist", f"playlist@{BOT_USERNAME}"]) & filters.group & ~filters.edited
+)
+async def playlist(client, message):
+
+    keyboard = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("•Gʀᴏᴜᴘ", url=f"https://t.me/XRaichu_Official"),               
+                InlineKeyboardButton("•Assɪsᴛᴀɴᴛ", url=f"https://t.me/{ASSISTANT_NAME}"),
+            ]
+        ]
+    )
+
+    global que
+    if message.chat.id in DISABLED_GROUPS:
+        return
+    queue = que.get(message.chat.id)
+    if not queue:
+        await message.reply_text("❌ **no music is currently playing**")
+    temp = []
+    for t in queue:
+        temp.append(t)
+    now_playing = temp[0][0]
+    by = temp[0][1].mention(style="md")
+    msg = "💡 **now playing** on {}".format(message.chat.title)
+    msg += "\n\n• " + now_playing
+    msg += "\n• Req By " + by
+    temp.pop(0)
+    if temp:
+        msg += "\n\n"
+        msg += "🔖 **Queued Song:**"
+        for song in temp:
+            name = song[0]
+            usr = song[1].mention(style="md")
+            msg += f"\n\n• {name}"
+            msg += f"\n• Req by {usr}"
+    await message.reply_text(msg, reply_markup=keyboard)
+
 @Client.on_message(command(["play", f"play@{BOT_USERNAME}"]) & other_filters)
 async def ytplay(_, message: Message):
     chat_id = get_chat_id(message.chat)
@@ -283,44 +388,6 @@ async def ytplay(_, message: Message):
         os.remove("final.png")
 
 
-@Client.on_message(
-    command(["playlist", f"playlist@{BOT_USERNAME}"]) & filters.group & ~filters.edited
-)
-async def playlist(client, message):
-
-    keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("•Gʀᴏᴜᴘ", url=f"https://t.me/XRaichu_Official"),               
-                InlineKeyboardButton("•Assɪsᴛᴀɴᴛ", url=f"https://t.me/{ASSISTANT_NAME}"),
-            ]
-        ]
-    )
-
-    global que
-    if message.chat.id in DISABLED_GROUPS:
-        return
-    queue = que.get(message.chat.id)
-    if not queue:
-        await message.reply_text("❌ **no music is currently playing**")
-    temp = []
-    for t in queue:
-        temp.append(t)
-    now_playing = temp[0][0]
-    by = temp[0][1].mention(style="md")
-    msg = "💡 **now playing** on {}".format(message.chat.title)
-    msg += "\n\n• " + now_playing
-    msg += "\n• Req By " + by
-    temp.pop(0)
-    if temp:
-        msg += "\n\n"
-        msg += "🔖 **Queued Song:**"
-        for song in temp:
-            name = song[0]
-            usr = song[1].mention(style="md")
-            msg += f"\n\n• {name}"
-            msg += f"\n• Req by {usr}"
-    await message.reply_text(msg, reply_markup=keyboard)
 
 # ============================= Settings =========================================
 
@@ -359,115 +426,6 @@ def r_ply(type_):
     )
     return mar
 
-
-@Client.on_message(
-    command(["player", f"player@{BOT_USERNAME}"]) & filters.group & ~filters.edited
-)
-@authorized_users_only
-async def settings(client, message):
-    global que
-    playing = None
-    if message.chat.id in callsmusic.pytgcalls.active_calls:
-        playing = True
-    queue = que.get(message.chat.id)
-    stats = updated_stats(message.chat, queue)
-    if stats:
-        if playing:
-            await message.reply(stats, reply_markup=r_ply("pause"))
-
-        else:
-            await message.reply(stats, reply_markup=r_ply("play"))
-    else:
-        await message.reply(
-            "😕 **voice chat not found**\n\n» please turn on the voice chat first"
-        )
-
-
-@Client.on_message(
-    command(["music", f"music@{BOT_USERNAME}"])
-    & ~filters.edited
-    & ~filters.bot
-    & ~filters.private
-)
-@authorized_users_only
-async def music_onoff(_, message):
-    global DISABLED_GROUPS
-    try:
-        message.from_user.id
-    except:
-        return
-    if len(message.command) != 2:
-        await message.reply_text(
-            "**• usage:**\n\n `/music on` & `/music off`"
-        )
-        return
-    status = message.text.split(None, 1)[1]
-    message.chat.id
-    if status in ("ON", "on", "On"):
-        lel = await message.reply("`processing...`")
-        if not message.chat.id in DISABLED_GROUPS:
-            await lel.edit("» **music player already turned on.**")
-            return
-        DISABLED_GROUPS.remove(message.chat.id)
-        await lel.edit(f"✅ **music player turned on**\n\n💬 `{message.chat.id}`")
-
-    elif status in ("OFF", "off", "Off"):
-        lel = await message.reply("`processing...`")
-
-        if message.chat.id in DISABLED_GROUPS:
-            await lel.edit("» **music player already turned off.**")
-            return
-        DISABLED_GROUPS.append(message.chat.id)
-        await lel.edit(f"✅ **music player turned off**\n\n💬 `{message.chat.id}`")
-    else:
-        await message.reply_text(
-            "**• usage:**\n\n `/music on` & `/music off`"
-        )
-
-
-@Client.on_callback_query(filters.regex(pattern=r"^(playlist)$"))
-async def p_cb(b, cb):
-
-    keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("• Gʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
-                InlineKeyboardButton(
-                    "• Cʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
-                ),
-            ],
-            [InlineKeyboardButton("🔙 Go Back", callback_data="menu")],
-        ]
-    )
-
-    global que
-    que.get(cb.message.chat.id)
-    type_ = cb.matches[0].group(1)
-    cb.message.chat.id
-    cb.message.chat
-    cb.message.reply_markup.inline_keyboard[1][0].callback_data
-    if type_ == "playlist":
-        queue = que.get(cb.message.chat.id)
-        if not queue:
-            await cb.message.edit("❌ **no music is currently playing**")
-        temp = []
-        for t in queue:
-            temp.append(t)
-        now_playing = temp[0][0]
-        by = temp[0][1].mention(style="md")
-        msg = "💡 **now playing** on {}".format(cb.message.chat.title)
-        msg += "\n\n• " + now_playing
-        msg += "\n• Req by " + by
-        temp.pop(0)
-        if temp:
-            msg += "\n\n"
-            msg += "🔖 **Queued Song:**"
-            for song in temp:
-                name = song[0]
-                usr = song[1].mention(style="md")
-                msg += f"\n\n• {name}"
-                msg += f"\n• Req by {usr}"
-        await cb.message.edit(msg, reply_markup=keyboard)
 
 
 @Client.on_callback_query(

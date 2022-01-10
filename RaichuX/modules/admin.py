@@ -57,8 +57,6 @@ async def pause(_, message: Message):
     for x in tgcalls.pytgcalls.active_calls:
         ACTV_CALLS(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
-        await message.reply_text("❌ **no music is currently playing**")
-    else:
         await tgcalls.pytgcalls.pause_stream(chat_id)
         await message.reply_text(
             "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» /resume command."

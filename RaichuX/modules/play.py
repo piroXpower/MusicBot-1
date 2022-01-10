@@ -23,7 +23,8 @@ from RaichuX import (
     CMD_IMG,
     UPDATES_CHANNEL,
     que,
-)
+) 
+from pyrogram.types import CallbackQuery
 from RaichuX.modules.youtube import youtube
 from RaichuX.helpers.debug.admins import get_administrators
 from RaichuX.helpers.debug.channelmusic import get_chat_id
@@ -334,7 +335,13 @@ async def ytplay(_, message: Message):
                InlineKeyboardButton("▶️", "resume"),
                InlineKeyboardButton("⏭", "skip"),
             ],
-       ]
+            [
+               InlineKeyboardButton(
+                text="🔎 Search Lyrics",
+                callback_data=f"lyrics {videoid}|{user_id}",
+                )
+            ]                 
+        ]
     )
     await generate_cover(title, thumbnail, ctitle)
     file_path = await converter.convert(youtube.download(url))

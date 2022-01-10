@@ -55,13 +55,14 @@ async def update_admin(client, message):
 async def pause(_, message: Message):
     chat_id = get_chat_id(message.chat)
     for x in tgcalls.pytgcalls.active_calls:
-        ACTV_CALLS(int(x.chat_id))
+        ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) not in ACTV_CALLS:
+        await message.reply_text("❌ **no music is currently playing**")
+    else:
         await tgcalls.pytgcalls.pause_stream(chat_id)
         await message.reply_text(
             "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» /resume command."
         )
-
 
 @Client.on_message(command(["resume", f"resume@{BOT_USERNAME}"]) & other_filters)
 @errors
@@ -74,9 +75,8 @@ async def resume(_, message: Message):
         await message.reply_text("❌ **no music is paused**")
     else:
         await tgcalls.pytgcalls.resume_stream(chat_id)
-        await message.reply_text(
-            "▶️ **Track resumed.**\n\n• **To pause the playback, use the**\n» /pause command."
-        )
+    await message.reply_text( "⏸ Track resumed.\n\n• To resume the playback, use the\n» /pause command." )
+
 
 
 @Client.on_message(command(["end", f"end@{BOT_USERNAME}", "stop", f"end@{BOT_USERNAME}"]) & other_filters)

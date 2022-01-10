@@ -29,6 +29,13 @@ async def on_stream_end(client: PyTgCalls, update: Update) -> None:
         )
 
 # resume and pause
+async def pause_stream(chat_id: int):
+
+      await pytgcalls.pause_stream(chat_id)
+
+async def resume_stream(chat_id: int):
+
+      await pytgcalls.resume_stream(chat_id) 
 
 
 run = pytgcalls.start

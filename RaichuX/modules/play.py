@@ -338,7 +338,7 @@ async def ytplay(_, message: Message):
             [
                InlineKeyboardButton(
                 text="🔎 Search Lyrics",
-                callback_data=f"lyrics {title}|{user_id}",
+                callback_data=f"lyrics {title}|{wew}",
                 )
             ]                 
         ]

@@ -10,6 +10,23 @@ from RaichuX import API_HASH, API_ID, SESSION_NAME
 Assistant = Client(SESSION_NAME, API_ID, API_HASH)
 pytgcalls = PyTgCalls(Assistant)
 
+@pytgcalls.on_kicked()
+async def on_kicked(client: PyTgCalls, chat_id: int) -> None:
+    try:
+        queues.clear(chat_id)
+    except QueueEmpty:
+        pass
+    await tgcalls.pytgcalls.leave_group_call(chat_id)
+
+     
+@pytgcalls.on_closed_voice_chat()
+async def on_closed(client: PyTgCalls, chat_id: int) -> None:
+    try:
+        queues.clear(chat_id)
+    except QueueEmpty:
+        pass
+    await tgcalls.pytgcalls.leave_group_call(chat_id)
+
 
 @pytgcalls.on_stream_end()
 async def on_stream_end(client: PyTgCalls, update: Update) -> None:
